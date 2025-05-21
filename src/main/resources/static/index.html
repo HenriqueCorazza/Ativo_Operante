@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload de Imagem</title>
+</head>
+<body>
+<h2>Enviar imagem para o servidor</h2>
+<form id="uploadForm" method="post" name="uploadForm" enctype="multipart/form-data" onsubmit="Gravar()">
+    <label>ID da Denuncia:</label>
+    <input type="number" name="den_id" id="id"><br><br>
+    <label>Escolha a imagem:</label>
+    <input type="file" name="arquivo" id="arquivo"><br><br>
+    <button type="submit">Enviar</button>
+</form>
+<form>
+    <input type="number" name="id_b" id="id_b">
+    <button type="button" onclick="Mostrar()">Pegar</button>
+</form>
+
+<div>
+    <h2>Tela de Tipo de Denuncia</h2>
+    <label for="tipoPost">Descricao:</label>
+    <input type="text" id="tipoPost" name="tipoPost">
+    <button type="button" onclick="cadastrarTipo()">Cadastrar</button>
+    <p id="mensagem"></p>
+
+    <br>
+
+    <button onclick="buscarTodosTipo()">Carregar Tipos</button>
+    <div id="tipoGet"></div>
+
+    <br>
+
+    <input type="number" id="tipoGetID" placeholder="Digite o ID">
+    <button onclick="buscarTipoId()">Buscar Tipo pelo ID</button>
+    <div id="resultado"></div>
+
+    <br>
+
+    <input type="number" id="tipoDelete" placeholder="Digite o ID do Tipo para deletar">
+    <button onclick="deletarTipo()">Deletar Tipo</button>
+
+    <br>
+
+    <input type="number" id="tipoUpdateID" placeholder="Digite o ID do Tipo">
+    <input type="text" id="tipoUpdateNome" placeholder="Digite o novo nome do Tipo">
+    <button onclick="alterarTipo()">Atualizar Tipo</button>
+
+</div>
+
+<script>
+   function Gravar()
+   {
+        event.preventDefault();
+
+        var formData = new FormData(document.getElementById("uploadForm"))
+        fetch("http://localhost:8080/apis/imagens/upload", {
+            method: "POST",
+            body: formData
+        })
+            .then(response => response.json())
+            .catch(error =>console.error(error))
+    }
+
+    function Mostrar()
+    {
+        const id = document.getElementById("id_b").value;
+        fetch(`/apis/imagens/get?den_id=${id}`)
+            .then(res => res.json())
+            .then(imagens => {
+                console.log(imagens)
+                imagens.forEach(imagem =>{
+                var img = document.createElement('img');
+                console.log(imagem.imagemBase64);
+                img.src = imagem.imagemBase64;
+                document.body.appendChild(img);
+            });
+        });
+    }
+
+    //Cadastrar um tipo no Postgre
+    function cadastrarTipo(){
+        var tipoDescricao = document.getElementById("tipoPost").value;
+
+        var tipo = {
+            nome : tipoDescricao
+        };
+
+        fetch("http://localhost:8080/apis/tipo", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(tipo)
+        })
+            .then(response => {
+                if(response.ok)
+                {
+                    return response.json();
+                }
+                return response.json().then(error => {throw new Error(error.mensagem);});
+            })
+            .then(data => {
+                document.getElementById("mensagem").innerText = data.mensagem || "Tipo cadastrado com sucesso!";
+                console.log(data);
+            })
+            .catch(error => {
+                document.getElementById("mensagem").innerText = "Erro: " + error.message;
+                console.error(error);
+            });
+    }
+
+    // Buscar todos que estão no banco (Tipo)
+    function buscarTodosTipo(){
+        fetch("http://localhost:8080/apis/tipo")
+            .then(response => {
+                if(response.ok)
+                {
+                    return response.json();
+                }
+                return response.json().then(error => { throw new Error(error.mensagem); });
+            })
+            .then(data => {
+                var listTipo = document.getElementById("tipoGet");
+                listTipo.innerHTML = '';
+
+                if(data.length === 0)
+                {
+                    listTipo.innerHTML = "<p>Nenhum tipo encontrado.</p>";
+                }
+                else
+                {
+                    var ul = document.createElement('ul');
+                    data.forEach(Tipo => {
+                        var li = document.createElement('li');
+                        li.textContent = `ID: ${Tipo.id}, Nome: ${Tipo.nome}`;
+                        ul.appendChild(li);
+                    });
+                    listTipo.appendChild(ul);
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                alert("Erro ao carregar tipos!");
+            });
+    }
+
+    // Busca no Get passando um ID
+    function buscarTipoId(){
+       var id = document.getElementById("tipoGetID").value;
+
+       fetch(`http://localhost:8080/apis/tipo/${id}`)
+           .then(response => {
+               if(response.ok)
+               {
+                   return response.json();
+               }
+               return response.json().then(error => { throw new Error(error.mensagem); });
+           })
+           .then(Tipo => {
+               var resul = document.getElementById("resultado");
+               resul.innerHTML = `<p>ID: ${Tipo.id}, Nome: ${Tipo.nome}</p>`;
+           })
+           .catch(error => {
+               console.error("Erro:", error);
+               alert("Erro ao buscar tipo: " + error.message);
+           })
+    }
+
+    function deletarTipo(){
+       var id = document.getElementById("tipoDelete").value;
+
+        fetch(`http://localhost:8080/apis/tipo/${id}`,{
+            method: "DELETE"
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert("Tipo deletado com sucesso!");
+                } else {
+                    return response.json().then(error => { throw new Error(error.mensagem); });
+                }
+            })
+            .catch(error => {
+                console.error("Erro:", error);
+                alert("Erro ao deletar tipo: " + error.message);
+            });
+    }
+
+    function alterarTipo(){
+        var id = document.getElementById("tipoUpdateID").value;
+        var nome = document.getElementById("tipoUpdateNome").value;
+
+        var tipoAtualizado = {
+            id: id,
+            nome: nome
+        };
+
+        fetch("http://localhost:8080/apis/tipo", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(tipoAtualizado)
+        })
+            .then(response => {
+                if (response.ok)
+                {
+                    return response.json();
+                } else
+                {
+                    return response.json().then(error => {
+                        throw new Error(error.mensagem || "Erro desconhecido");
+                    });
+                }
+            })
+            .then(tipo => {
+                alert("Tipo atualizado com sucesso!");
+                console.log(tipo);
+            })
+            .catch(error => {
+                console.error("Erro:", error);
+                alert("Erro ao atualizar tipo: " + error.message);
+            })
+    }
+
+</script>
+</body>
+</html>
