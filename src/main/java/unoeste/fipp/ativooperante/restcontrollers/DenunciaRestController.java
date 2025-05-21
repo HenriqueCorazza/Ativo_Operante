@@ -1,5 +1,7 @@
 package unoeste.fipp.ativooperante.restcontrollers;
 
+import jakarta.servlet.annotation.WebFilter;
+import org.hibernate.annotations.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +11,7 @@ import unoeste.fipp.ativooperante.services.ImagemService;
 
 import java.util.List;
 @RestController
-@RequestMapping("apis/denuncia")
+@RequestMapping("apis/admin/denuncia")
 public class DenunciaRestController {
     @Autowired
     private DenunciaService denunciaService;
