@@ -1,7 +1,7 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-image: url('images/denuncia.jpg'); /* Caminho para sua imagem */
-    background-size: cover; /* Faz a imagem cobrir todo o fundo */
+    background-size: cover;
     background-position: center center; /* Centraliza a imagem */
     background-repeat: no-repeat; /* Evita que a imagem se repita */
     background-attachment: fixed; /* Fixa a imagem no lugar enquanto a página rola (se houver rolagem) */
