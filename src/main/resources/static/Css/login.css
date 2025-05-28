@@ -1,0 +1,108 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-image: url('../images/denuncia.jpg'); /* Caminho para sua imagem */
+    background-size: cover;
+    background-position: center center; /* Centraliza a imagem */
+    background-repeat: no-repeat; /* Evita que a imagem se repita */
+    background-attachment: fixed; /* Fixa a imagem no lugar enquanto a página rola (se houver rolagem) */
+    /* Opcional: Adicione um overlay escuro para melhorar a legibilidade do texto */
+    background-color: rgba(0, 0, 0, 0.4); /* Cor de fundo escura */
+    background-blend-mode: overlay; /* Mistura a imagem com a cor de fundo */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    color: #333;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.login-container {
+    background-color: black;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    backdrop-filter: blur(5px); /* Efeito de desfoque no fundo do container */
+}
+
+.login-box h2 {
+    color: whitesmoke;
+    margin-bottom: 10px;
+    font-size: 2em;
+    font-weight: 600;
+}
+
+.login-box p {
+    color: whitesmoke;
+    margin-bottom: 30px;
+    font-size: 1em;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: whitesmoke;
+    font-weight: 500;
+}
+
+.input-group input[type="text"],
+.input-group input[type="password"] {
+    width: calc(100% - 20px); /* Ajuste para padding */
+    padding: 12px 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 1em;
+    box-sizing: border-box; /* Garante que padding e border não aumentem a largura total */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input-group input[type="text"]:focus,
+.input-group input[type="password"]:focus {
+    border-color: #6a11cb;
+    box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.2);
+    outline: none;
+}
+
+.login-button {
+    padding: 15px;
+    width: 50%;
+    background: whitesmoke; /* Gradiente no botão */
+    color: black;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.login-button:hover {
+    background: darkslategray;
+    color: whitesmoke;
+    transform: translateY(-2px);
+}
+
+.error-message {
+    color: #e74c3c;
+    margin-top: 20px;
+    font-weight: 500;
+    visibility: hidden; /* Escondido por padrão */
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.error-message.show {
+    visibility: visible;
+    opacity: 1;
+}

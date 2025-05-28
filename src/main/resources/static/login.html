@@ -1,15 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Ativo Operante</title>
+    <link rel="stylesheet" href="Css/login.css">
 </head>
 <body>
-    <input type="text" id="login" placeholder="Informe seu Login">
-    <input type="text" id="senha" placeholder="Informe sua senha">
-    <button onclick="realizarLogin()">Logar</button>
+<div class="login-container">
+    <div class="login-box">
+        <h2>Bem-vindo(a) ao <br> Centro de Denuncias</h2>
+        <p>Faça login para continuar</p>
+        <form id="loginForm">
+            <div class="input-group">
+                <label for="username">Usuário</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Senha</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="login-button">Entrar</button>
+        </form>
+        <p id="errorMessage" class="error-message"></p>
+    </div>
+</div>
 
-
-
+<script src="JavaScript/login.js"></script>
 </body>
 </html>
