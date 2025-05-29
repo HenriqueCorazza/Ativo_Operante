@@ -1,0 +1,431 @@
+/* Importar fonte Segoe UI (e fallbacks) */
+* { /* Adicionado para garantir que padding e border são incluídos no tamanho total do elemento */
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100vw; /* Garante que o HTML e o Body ocupem a largura total da janela de visualização */
+    height: 100vh; /* Garante que o HTML e o Body ocupem a altura total da janela de visualização */
+    margin: 0; /* Remove margens padrão */
+    padding: 0; /* Remove preenchimentos padrão */
+    overflow-x: hidden; /* Previne barras de rolagem horizontais indesejadas */
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Caminho relativo à pasta 'Css' para a imagem em 'images' */
+    background-image: url('../images/denuncia.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color: rgba(0, 0, 0, 0.6); /* Overlay um pouco mais escuro para adm */
+    background-blend-mode: overlay;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* min-height: 100vh; já coberto por html, body height: 100vh */
+    color: #eee; /* Cor geral do texto para o corpo */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    padding: 1rem; /* Padding para o conteúdo dentro do dashboard-container centrado */
+}
+
+/* Responsividade para padding */
+@media (min-width: 640px) { /* sm:p-8 */
+    body {
+        padding: 2rem;
+    }
+}
+
+.dashboard-container {
+    background-color: rgba(0, 0, 0, 0.85); /* Fundo da caixa mais escuro */
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 800px; /* Um pouco mais largo para o admin */
+    text-align: center;
+    backdrop-filter: blur(8px);
+    color: #eee; /* Texto claro */
+    animation: fadeIn 1s ease-out; /* Adiciona uma pequena animação */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.dashboard-container h1 {
+    color: #6a11cb; /* Cor mais para roxo */
+    margin-bottom: 20px;
+    font-size: 2.8em;
+}
+
+.dashboard-container p {
+    margin-bottom: 30px;
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: #ccc; /* Especificamente para tags p dentro de dashboard-container */
+}
+
+.alert-error {
+    background-color: rgba(231, 76, 60, 0.2); /* Erro temático mais escuro */
+    border: 1px solid #e74c3c;
+    color: #e74c3c;
+    padding: 0.75rem 1rem;
+    border-radius: 0.375rem;
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.alert-error strong {
+    font-weight: 700;
+}
+
+.alert-error span {
+    display: block;
+    margin-left: 0.5rem;
+}
+
+@media (min-width: 640px) {
+    .alert-error span {
+        display: inline;
+    }
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+}
+
+@media (min-width: 640px) {
+    .control-group {
+        flex-direction: row;
+        gap: 0;
+    }
+    .control-group > *:not(:last-child) {
+        margin-right: 1rem;
+    }
+}
+
+.input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+@media (min-width: 640px) {
+    .input-wrapper {
+        width: 66.666667%;
+    }
+}
+
+.input-field {
+    width: 100%;
+    padding-left: 2.5rem;
+    padding-right: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.1); /* Fundo do input mais escuro */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Borda mais escura */
+    border-radius: 0.5rem;
+    transition: all 0.2s ease-in-out;
+    color: #eee; /* Texto claro para o input */
+}
+
+.input-field::placeholder {
+    color: #bbb; /* Texto do placeholder mais claro */
+}
+
+.input-field:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(106, 17, 203, 0.5); /* Anel de foco correspondente ao novo tema */
+    border-color: #6a11cb;
+}
+
+.input-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #bbb; /* Cor do ícone mais clara */
+}
+
+.action-button {
+    padding: 10px 20px;
+    background-color: #007bff; /* Azul padrão */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: 0.9em;
+}
+
+.action-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+}
+
+.action-button.primary {
+    background: linear-gradient(to right, #6a11cb, #2575fc); /* Gradiente roxo-azul para ações primárias */
+}
+
+.action-button.primary:hover {
+    background: linear-gradient(to right, #5a0eb3, #1a5ac9);
+}
+
+.loading-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+    border-radius: 9999px;
+    height: 3rem;
+    width: 3rem;
+    border-bottom: 2px solid #6a11cb; /* Cor do spinner correspondente ao novo tema */
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.loading-text {
+    margin-left: 1rem;
+    color: #eee; /* Texto claro para o carregamento */
+}
+
+.table-container {
+    overflow-x: auto;
+    border-radius: 0.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Sombra similar à do admin-card */
+    background-color: rgba(255, 255, 255, 0.08); /* Fundo similar ao do admin-card */
+    border: 1px solid rgba(255, 255, 255, 0.15); /* Borda similar à do admin-card */
+    padding: 1rem; /* Adicionado padding para melhor espaçamento dentro da "tabela-cartão" */
+}
+
+table {
+    min-width: 100%;
+    background-color: transparent; /* Torna o fundo da tabela transparente para mostrar o fundo do contêiner */
+    border: none; /* Remove a borda da tabela, pois o contêiner já tem uma */
+    border-collapse: collapse;
+}
+
+thead {
+    background-color: rgba(255, 255, 255, 0.05); /* Cabeçalho ligeiramente mais claro para contraste */
+}
+
+th {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #9b59b6; /* Cor do texto do cabeçalho do admin-card h3 */
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Borda mais clara para o cabeçalho */
+}
+
+th:first-child {
+    border-top-left-radius: 0.5rem;
+}
+
+th:last-child {
+    border-top-right-radius: 0.5rem;
+    text-align: center;
+}
+
+td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Borda muito sutil para as linhas */
+    color: #eee; /* Texto claro para os dados da tabela */
+}
+
+tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.05); /* Efeito hover sutil */
+    transition: background-color 0.15s ease-in-out;
+}
+
+.actions-cell {
+    text-align: center;
+}
+
+.actions-cell .button-group {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+/* Botões de ação dentro da tabela - reutilizando estilos .action-button */
+.action-button { /* Estilo geral do botão de ação */
+    padding: 8px 12px; /* Ligeiramente menor para o contexto da tabela */
+    font-size: 0.8em;
+    /* outros estilos herdados do .action-button global */
+}
+
+.edit-button {
+    color: #9b59b6; /* Cor roxa para editar */
+    background-color: transparent;
+    border: 1px solid #9b59b6;
+    border-radius: 5px;
+}
+
+.edit-button:hover {
+    background-color: rgba(155, 89, 182, 0.2); /* Hover roxo mais claro */
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.delete-button {
+    color: #e74c3c; /* Cor vermelha para excluir */
+    background-color: transparent;
+    border: 1px solid #e74c3c;
+    border-radius: 5px;
+}
+
+.delete-button:hover {
+    background-color: rgba(231, 76, 60, 0.2); /* Hover vermelho mais claro */
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.no-types-message {
+    text-align: center;
+    color: #bbb; /* Cor mais clara para a mensagem de "nenhum tipo" */
+    font-size: 1.125rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+/* Estilos do Modal */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.75); /* Overlay do modal mais escuro */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    z-index: 50;
+}
+
+.modal-content {
+    background-color: rgba(0, 0, 0, 0.9); /* Fundo do conteúdo do modal mais escuro */
+    border-radius: 0.75rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.2); /* Sombra mais escura */
+    width: 100%;
+    max-width: 28rem;
+    padding: 1.5rem;
+    position: relative;
+    transform: scale(0.95);
+    opacity: 0;
+    transition: all 0.3s ease-out;
+    color: #eee; /* Texto claro para o modal */
+}
+
+@media (min-width: 640px) {
+    .modal-content {
+        padding: 2rem;
+    }
+}
+
+.modal-content.animate-scale-in {
+    animation: scale-in 0.3s ease-out forwards;
+}
+
+.modal-hidden {
+    display: none;
+}
+
+.modal-close-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    color: #bbb; /* Cor clara para o botão de fechar */
+    padding: 0.5rem;
+    border-radius: 9999px;
+    transition: all 0.2s ease-in-out;
+}
+
+.modal-close-button:hover {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.1); /* Hover sutil para o botão de fechar */
+}
+
+.modal-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #9b59b6; /* Cor do título do admin-card h3 */
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-label {
+    display: block;
+    color: #ccc; /* Texto claro para os rótulos */
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    background-color: rgba(255, 255, 255, 0.1); /* Fundo do input mais escuro */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Borda mais escura */
+    border-radius: 0.5rem;
+    transition: all 0.2s ease-in-out;
+    color: #eee; /* Texto claro para o input */
+}
+
+.form-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(106, 17, 203, 0.5); /* Anel de foco correspondente ao novo tema */
+    border-color: #6a11cb;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+}
+
+/* Estilos para o botão de voltar */
+.back-button {
+    position: absolute; /* Posição absoluta para posicionar livremente */
+    top: 20px; /* Distância do topo */
+    left: 20px; /* Distância da esquerda */
+    background: linear-gradient(to right, #2575fc, #6a11cb); /* Gradiente azul-roxo */
+    padding: 10px 15px;
+    font-size: 0.9em;
+    border-radius: 5px;
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 10; /* Garante que o botão esteja acima de outros elementos */
+}
+
+.back-button:hover {
+    background: linear-gradient(to right, #1a5ac9, #5a0eb3);
+    transform: translateY(-2px);
+}
+
+/* Ajuste o padding do dashboard-container para que o botão não fique colado na borda */
+.dashboard-container {
+    position: relative; /* Necessário para posicionar o botão 'Voltar' absolutamente dentro dele */
+    padding: 60px 40px 40px 40px; /* Aumenta o padding superior para o botão */
+    /* ... (restante dos seus estilos dashboard-container) ... */
+}

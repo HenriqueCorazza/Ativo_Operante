@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administração de Denúncias - Ativo Operante</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="../Css/denuncia.css">
+</head>
+<body>
+<div class="dashboard-container">
+    <button class="action-button back-button" onclick="history.back()">Voltar</button>
+
+    <h1>Administração de Denúncias</h1>
+    <p>Gerencie todas as denúncias do sistema, adicione feedback e exclua.</p>
+
+    <div id="error-message" class="alert-error modal-hidden" role="alert">
+        <strong>Erro:</strong>
+        <span id="error-text"></span>
+    </div>
+
+    <div class="control-group">
+        <div class="input-wrapper">
+            <input
+                    type="text"
+                    id="filter-input"
+                    placeholder="Filtrar por descrição..."
+                    class="input-field"
+            />
+            <span class="input-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            </span>
+        </div>
+    </div>
+
+    <div id="loading-indicator" class="loading-indicator modal-hidden">
+        <div class="spinner"></div>
+        <p class="loading-text">Carregando denúncias...</p>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Descrição</th>
+                <th>Status</th>
+                <th>Data Criação</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+            <tbody id="denuncia-table-body">
+            </tbody>
+        </table>
+        <p id="no-denuncias-message" class="no-types-message modal-hidden">
+            Nenhuma denúncia encontrada.
+        </p>
+    </div>
+</div>
+
+<div id="feedback-modal" class="modal-overlay modal-hidden">
+    <div class="modal-content">
+        <button
+                id="close-feedback-modal-button"
+                class="modal-close-button"
+                title="Fechar"
+        >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+        <h2 id="feedback-modal-title" class="modal-title">
+            Adicionar Feedback
+        </h2>
+
+        <div id="feedback-modal-error-message" class="alert-error modal-hidden" role="alert">
+            <span id="feedback-modal-error-text"></span>
+        </div>
+
+        <form id="feedback-form">
+            <input type="hidden" id="feedback-denuncia-id">
+            <div class="form-group">
+                <label for="feedback-text" class="form-label">
+                    Feedback para a Denúncia <span id="feedback-denuncia-id-display"></span>:
+                </label>
+                <textarea
+                        id="feedback-text"
+                        class="form-input"
+                        rows="4"
+                        placeholder="Digite o feedback aqui..."
+                        required
+                ></textarea>
+            </div>
+            <div class="form-actions">
+                <button
+                        type="button"
+                        id="cancel-feedback-modal-button"
+                        class="action-button"
+                >
+                    Cancelar
+                </button>
+                <button
+                        type="submit"
+                        id="save-feedback-button"
+                        class="action-button primary"
+                >
+                    Salvar Feedback
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="../JavaScript/denuncia.js"></script>
+</body>
+</html>

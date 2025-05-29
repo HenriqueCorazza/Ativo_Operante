@@ -122,3 +122,29 @@ body {
     background-color: #c0392b;
     transform: translateY(-1px);
 }
+
+/* Adicione este estilo ao seu ficheiro admin.css */
+.back-button {
+    position: absolute; /* Posição absoluta para posicionar livremente */
+    top: 20px; /* Distância do topo */
+    left: 20px; /* Distância da esquerda */
+    background: linear-gradient(to right, #2575fc, #6a11cb); /* Gradiente azul-roxo */
+    padding: 10px 15px;
+    font-size: 0.9em;
+    border-radius: 5px;
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 10; /* Garante que o botão esteja acima de outros elementos */
+}
+
+.back-button:hover {
+    background: linear-gradient(to right, #1a5ac9, #5a0eb3);
+    transform: translateY(-2px);
+}
+
+/* Ajuste o padding do dashboard-container para que o botão não fique colado na borda */
+.dashboard-container {
+    position: relative; /* Necessário para posicionar o botão 'Voltar' absolutamente dentro dele */
+    padding: 60px 40px 40px 40px; /* Aumenta o padding superior para o botão */
+    /* ... (restante dos seus estilos dashboard-container) ... */
+}

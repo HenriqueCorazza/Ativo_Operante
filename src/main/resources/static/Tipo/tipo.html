@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Administração de Tipos</title>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="../Css/tipo.css">
+</head>
+<body class="min-h-screen">
+<div class="dashboard-container">
+  <button class="action-button back-button" onclick="history.back()">Voltar</button>
+  <h1>Administração de Tipos</h1>
+
+  <div id="error-message" class="alert-error modal-hidden" role="alert">
+    <strong>Erro:</strong>
+    <span id="error-text"></span>
+  </div>
+
+  <div class="control-group">
+    <div class="input-wrapper">
+      <input
+              type="text"
+              id="filter-input"
+              placeholder="Filtrar por nome..."
+              class="input-field"
+      />
+      <span class="input-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                </span>
+    </div>
+    <button
+            id="add-tipo-button"
+            class="action-button primary"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+      <span>Cadastrar Novo Tipo</span>
+    </button>
+  </div>
+
+  <div id="loading-indicator" class="loading-indicator modal-hidden">
+    <div class="spinner"></div>
+    <p class="loading-text">Carregando tipos...</p>
+  </div>
+
+  <div class="table-container">
+    <table>
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Ações</th>
+      </tr>
+      </thead>
+      <tbody id="tipo-table-body">
+      </tbody>
+    </table>
+    <p id="no-types-message" class="no-types-message modal-hidden">
+      Nenhum tipo encontrado.
+    </p>
+  </div>
+</div>
+
+<div id="tipo-form-modal" class="modal-overlay modal-hidden">
+  <div class="modal-content">
+    <button
+            id="close-modal-button"
+            class="modal-close-button"
+            title="Fechar"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </button>
+    <h2 id="modal-title" class="modal-title">
+      Cadastrar Novo Tipo
+    </h2>
+
+    <div id="modal-error-message" class="alert-error modal-hidden" role="alert">
+      <span id="modal-error-text"></span>
+    </div>
+
+    <form id="tipo-form">
+      <input type="hidden" id="tipo-id">
+      <div class="form-group">
+        <label for="tipo-nome" class="form-label">
+          Nome do Tipo:
+        </label>
+        <input
+                type="text"
+                id="tipo-nome"
+                class="form-input"
+                required
+        />
+      </div>
+      <div class="form-actions">
+        <button
+                type="button"
+                id="cancel-modal-button"
+                class="action-button"
+        >
+          Cancelar
+        </button>
+        <button
+                type="submit"
+                id="save-tipo-button"
+                class="action-button primary"
+        >
+          Cadastrar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="../JavaScript/Tipo.js"></script>
+</body>
+</html>
