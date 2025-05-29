@@ -15,13 +15,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("apis/imagens")
+@RequestMapping("apis/")
 public class ImagemRestController {
 
     @Autowired
     private ImagemService imagemService;
 
-    @PostMapping("/upload")
+    @PostMapping("cidadao/upload")
     public ResponseEntity<Object> uploadImagem(@RequestParam("arquivo") MultipartFile arquivo, @RequestParam("den_id") Long den_id) {
         try {
                 Imagem img = imagemService.addImagem(arquivo,den_id);

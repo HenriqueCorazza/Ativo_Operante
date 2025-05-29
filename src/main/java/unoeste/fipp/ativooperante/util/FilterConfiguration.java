@@ -1,4 +1,4 @@
-package unoeste.fipp.ativooperante.entities;
+package unoeste.fipp.ativooperante.util;
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

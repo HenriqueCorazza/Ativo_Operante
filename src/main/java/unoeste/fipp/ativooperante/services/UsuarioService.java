@@ -43,5 +43,15 @@ public class UsuarioService {
         else
             return false;
     }
+
+    public Usuario authenticate(String email, int password) {
+        Usuario u = usuarioRepository.findByEmail(email);
+        if (u != null) {
+            if(u.getSenha() == password) {
+                return u;
+            }
+        }
+        return null;
+    }
 }
 

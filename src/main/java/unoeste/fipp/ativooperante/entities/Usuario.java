@@ -14,11 +14,11 @@ public class Usuario {
     @Column(name = "usu_email")
     private String email;
     @Column(name = "usu_senha")
-    private String senha;
+    private int senha;
     @Column(name = "usu_nivel")
     private int nivel;
 
-    public Usuario(Long id, String cpf, String email, String senha, int nivel) {
+    public Usuario(Long id, String cpf, String email, int senha, int nivel) {
         this.id = id;
         this.cpf = cpf;
         this.email = email;
@@ -52,11 +52,11 @@ public class Usuario {
         this.email = email;
     }
 
-    public String getSenha() {
+    public int getSenha() {
         return senha;
     }
 
-    public void setSenha(String senha) {
+    public void setSenha(int senha) {
         this.senha = senha;
     }
 
