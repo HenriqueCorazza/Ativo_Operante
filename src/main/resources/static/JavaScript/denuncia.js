@@ -209,7 +209,6 @@ async function addFeedback(denunciaId, feedbackText) {
 
 // --- Funções de Renderização e Eventos ---
 
-// Renderiza a lista de denúncias na tabela
 function renderDenuncias(denunciasToRender) {
     denunciaTableBody.innerHTML = '';
     if (denunciasToRender.length === 0) {
@@ -217,13 +216,13 @@ function renderDenuncias(denunciasToRender) {
     } else {
         noDenunciasMessage.classList.add('modal-hidden');
         denunciasToRender.forEach(denuncia => {
+            // console.log("Processando denúncia:", denuncia); // Mantenha ou remova esta linha após depuração
             const row = document.createElement('tr');
             row.className = 'hover-row';
             row.innerHTML = `
                 <td>${denuncia.id}</td>
-                <td>${denuncia.descricao || 'N/A'}</td>
-                <td>${denuncia.status || 'N/A'}</td>
-                <td>${new Date(denuncia.dataCriacao).toLocaleDateString() || 'N/A'}</td>
+                <td>${denuncia.titulo || 'N/A'}</td>   
+                <td>${denuncia.status || 'N/A'}</td> <td>${new Date(denuncia.data).toLocaleDateString() || 'N/A'}</td> 
                 <td class="actions-cell">
                     <div class="button-group">
                         <button
@@ -269,7 +268,8 @@ function renderDenuncias(denunciasToRender) {
 filterInput.addEventListener('input', (e) => {
     const filterText = e.target.value.toLowerCase();
     const filteredDenuncias = allDenuncias.filter(denuncia =>
-        denuncia.descricao.toLowerCase().includes(filterText)
+        // CORRIGIDO: Filtrar por 'titulo' em vez de 'descricao'
+        denuncia.titulo.toLowerCase().includes(filterText)
     );
     renderDenuncias(filteredDenuncias);
 });
