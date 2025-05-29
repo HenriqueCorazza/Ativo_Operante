@@ -1,0 +1,237 @@
+/* Importar fonte Segoe UI (e fallbacks) */
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-image: url('../images/denuncia.jpg'); /* Ajuste o caminho da imagem se necessário */
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-color: rgba(0, 0, 0, 0.6); /* Overlay */
+    background-blend-mode: overlay;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #eee;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    padding: 1rem;
+}
+
+@media (min-width: 640px) {
+    body {
+        padding: 2rem;
+    }
+}
+
+.container {
+    background-color: rgba(0, 0, 0, 0.85);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 600px; /* Largura ajustada para o formulário */
+    text-align: center;
+    backdrop-filter: blur(8px);
+    color: #eee;
+    animation: fadeIn 1s ease-out;
+    position: relative; /* Para posicionar o botão voltar */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.container h1 {
+    color: #6a11cb;
+    margin-bottom: 15px; /* Menos margem para o título do formulário */
+    font-size: 2.5em; /* Tamanho ajustado */
+}
+
+.container p {
+    margin-bottom: 25px;
+    font-size: 1em;
+    line-height: 1.5;
+    color: #ccc;
+}
+
+/* Estilos para o botão de voltar */
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: linear-gradient(to right, #2575fc, #6a11cb);
+    padding: 8px 12px;
+    font-size: 0.85em;
+    border-radius: 5px;
+    color: white;
+    text-decoration: none; /* Remover sublinhado padrão do link */
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease;
+}
+
+.back-button:hover {
+    background: linear-gradient(to right, #1a5ac9, #5a0eb3);
+    transform: translateY(-1px);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.4);
+}
+
+
+/* Estilos para o formulário */
+.form-group {
+    margin-bottom: 1.25rem;
+    text-align: left; /* Alinha o rótulo e input à esquerda */
+}
+
+.form-label {
+    display: block;
+    color: #ccc;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.form-input,
+.form-input-file,
+.form-input select { /* Inclui select para estilização */
+    width: 100%;
+    padding: 0.75rem 1rem; /* Aumenta um pouco o padding */
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0.5rem;
+    transition: all 0.2s ease-in-out;
+    color: #eee;
+    font-size: 1em; /* Garante tamanho de fonte consistente */
+}
+
+.form-input:focus,
+.form-input-file:focus,
+.form-input select:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(106, 17, 203, 0.5);
+    border-color: #6a11cb;
+}
+
+/* Estilo específico para selects para ajustar a seta padrão */
+.form-input select {
+    appearance: none; /* Remove a seta padrão */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23ccc'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'/%3E%3C/svg%3E"); /* Adiciona seta customizada */
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1.5em;
+    padding-right: 2.5rem; /* Espaço para a seta */
+}
+
+
+.form-input::placeholder {
+    color: #bbb;
+}
+
+.form-input-file { /* Estilo para input type="file" */
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    line-height: 1.5; /* Ajuste para o texto dentro do input file */
+}
+
+.form-actions {
+    display: flex;
+    justify-content: center; /* Centraliza o botão */
+    margin-top: 2rem;
+}
+
+/* Botões de ação */
+.action-button {
+    padding: 12px 25px; /* Aumenta o padding para botões maiores */
+    background-color: #007bff; /* Azul padrão */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    font-size: 1.1em; /* Tamanho maior para o botão de envio */
+    display: flex; /* Para centralizar spinner se estiver visível */
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem; /* Espaço entre texto e spinner */
+}
+
+.action-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+}
+
+.action-button.primary {
+    background: linear-gradient(to right, #6a11cb, #2575fc); /* Gradiente roxo-azul */
+}
+
+.action-button.primary:hover {
+    background: linear-gradient(to right, #5a0eb3, #1a5ac9);
+}
+
+/* Mensagem de Erro */
+.alert-error {
+    background-color: rgba(231, 76, 60, 0.2);
+    border: 1px solid #e74c3c;
+    color: #e74c3c;
+    padding: 0.75rem 1rem;
+    border-radius: 0.375rem;
+    position: relative;
+    margin-bottom: 1.5rem; /* Aumenta um pouco a margem */
+    text-align: left; /* Alinha o texto do erro à esquerda */
+}
+
+.alert-error strong {
+    font-weight: 700;
+}
+
+.alert-error span {
+    display: block;
+    margin-left: 0.5rem;
+}
+
+@media (min-width: 640px) {
+    .alert-error span {
+        display: inline;
+    }
+}
+
+/* Utilitário para esconder elementos */
+.modal-hidden {
+    display: none;
+}
+
+/* Indicador de carregamento (spinner) */
+.loading-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+    border-radius: 9999px;
+    height: 1.5rem; /* Tamanho ajustado para dentro do botão */
+    width: 1.5rem;
+    border: 2px solid rgba(255, 255, 255, 0.5); /* Cor mais clara para o spinner */
+    border-bottom: 2px solid #fff; /* Cor sólida para a parte animada */
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}

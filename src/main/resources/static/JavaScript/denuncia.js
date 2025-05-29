@@ -97,13 +97,31 @@ function hideLoading() {
 
 // Abre o modal de feedback
 function openFeedbackModal(denunciaId) {
+    console.log("FUNÇÃO openFeedbackModal CHAMADA PARA ID:", denunciaId); // <--- LOG CRÍTICO QUE SUMIU!
+
+    // ADICIONADO: Verificação se o elemento do modal foi realmente encontrado no DOM
+    if (!feedbackModal) {
+        console.error("ERRO: Elemento #feedback-modal não encontrado no DOM! Verifique seu HTML e o ID.");
+        return; // Sai da função se o elemento não foi encontrado
+    }
+
     hideModalError(feedbackModalErrorMessageDiv, feedbackModalErrorTextSpan);
     feedbackForm.reset();
     feedbackDenunciaIdInput.value = denunciaId;
-    feedbackDenunciaIdDisplay.textContent = denunciaId; // Exibe o ID da denúncia no título
+    feedbackDenunciaIdDisplay.textContent = denunciaId;
+
     feedbackModal.classList.remove('modal-hidden');
-    feedbackModal.querySelector('.modal-content').classList.remove('opacity-0', 'scale-95');
-    feedbackModal.querySelector('.modal-content').classList.add('opacity-100', 'scale-100', 'animate-scale-in');
+    console.log("Classe 'modal-hidden' REMOVIDA do #feedback-modal. Classes atuais:", feedbackModal.classList.value); // <--- LOG CRÍTICO QUE SUMIU!
+
+    const modalContent = feedbackModal.querySelector('.modal-content');
+    // ADICIONADO: Verificação se o elemento do conteúdo do modal foi encontrado
+    if (modalContent) {
+        modalContent.classList.remove('opacity-0', 'scale-95');
+        modalContent.classList.add('opacity-100', 'scale-100', 'animate-scale-in');
+        console.log("Classes de animação aplicadas ao .modal-content. Classes atuais:", modalContent.classList.value); // <--- LOG CRÍTICO QUE SUMIU!
+    } else {
+        console.error("ERRO: Elemento .modal-content não encontrado dentro do #feedback-modal! Verifique seu HTML."); // <--- LOG CRÍTICO!
+    }
 }
 
 // Fecha o modal de feedback
@@ -211,12 +229,13 @@ async function addFeedback(denunciaId, feedbackText) {
 
 function renderDenuncias(denunciasToRender) {
     denunciaTableBody.innerHTML = '';
+    console.log("Renderizando denúncias. Total:", denunciasToRender.length);
     if (denunciasToRender.length === 0) {
         noDenunciasMessage.classList.remove('modal-hidden');
     } else {
         noDenunciasMessage.classList.add('modal-hidden');
         denunciasToRender.forEach(denuncia => {
-            // console.log("Processando denúncia:", denuncia); // Mantenha ou remova esta linha após depuração
+            console.log("Processando denúncia:", denuncia);
             const row = document.createElement('tr');
             row.className = 'hover-row';
             row.innerHTML = `
@@ -249,6 +268,7 @@ function renderDenuncias(denunciasToRender) {
         document.querySelectorAll('.feedback-button').forEach(button => {
             button.addEventListener('click', (e) => {
                 const id = e.currentTarget.dataset.id;
+                console.log("CLIQUE NO BOTÃO DE FEEDBACK DETECTADO PARA ID:", id);
                 openFeedbackModal(id);
             });
         });
@@ -256,6 +276,7 @@ function renderDenuncias(denunciasToRender) {
         document.querySelectorAll('.delete-button').forEach(button => {
             button.addEventListener('click', (e) => {
                 const id = e.currentTarget.dataset.id;
+                console.log("CLIQUE NO BOTÃO DE EXCLUIR DETECTADO PARA ID:", id);
                 deleteDenuncia(id);
             });
         });
@@ -292,4 +313,3 @@ feedbackForm.addEventListener('submit', (e) => {
     addFeedback(denunciaId, feedbackText);
 });
 
-// A chamada inicial fetchDenuncias() é feita após a verificação do token no DOMContentLoaded

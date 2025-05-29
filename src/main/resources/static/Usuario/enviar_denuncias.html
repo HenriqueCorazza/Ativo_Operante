@@ -1,11 +1,54 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="pt-BR">
-    <title>Title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enviar Nova Denúncia - Ativo Operante</title>
+    <link rel="stylesheet" href="../Css/enviar_denuncias.css">
 </head>
 <body>
+<div class="container">
+    <a href="usuario.html" class="back-button">Voltar</a>
+    <h1>Enviar Nova Denúncia</h1>
+    <p>Preencha os detalhes abaixo para registrar sua denúncia.</p>
 
+    <div id="error-message" class="alert-error modal-hidden">
+        <strong>Erro:</strong> <span id="error-text"></span>
+    </div>
+
+    <form id="denuncia-form" class="form">
+        <div class="form-group">
+            <label for="titulo" class="form-label">Título da Denúncia:</label>
+            <input type="text" id="titulo" name="titulo" class="form-input" placeholder="Ex: Buraco na Rua Principal" required>
+        </div>
+
+        <div class="form-group">
+            <label for="descricao" class="form-label">Descrição Detalhada:</label>
+            <textarea id="descricao" name="descricao" class="form-input" rows="5" placeholder="Forneça o máximo de detalhes possível sobre a denúncia..." required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="tipoDenuncia" class="form-label">Tipo de Denúncia:</label>
+            <select id="tipoDenuncia" name="tipoDenuncia" class="form-input" required>
+                <option value="">Selecione um tipo</option>
+                <option value="1">Infraestrutura</option>
+                <option value="2">Meio Ambiente</option>
+                <option value="3">Saúde Pública</option>
+                <option value="4">Segurança</option>
+            </select>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="action-button primary" id="submitDenunciaButton">
+                Enviar Denúncia
+                <div id="loading-indicator" class="loading-indicator modal-hidden">
+                    <div class="spinner"></div>
+                </div>
+            </button>
+        </div>
+    </form>
+</div>
+
+<script src="../JavaScript/enviar_denuncias.js"></script>
 </body>
-<script src="../JavaScript/usuario.js"></script>
 </html>
