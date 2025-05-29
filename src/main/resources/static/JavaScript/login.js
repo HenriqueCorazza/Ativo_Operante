@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     localStorage.removeItem('jwtToken');
     localStorage.removeItem('nivel');
+    localStorage.removeItem('userId');
 })
 
 document.getElementById('loginForm').addEventListener('submit', function(event) {
@@ -27,8 +28,10 @@ function registrarToken(usuario, senha){
         .then(data =>{
             var token = data.token;
             var nivel = data.nivel
+            var id = data.usu_id;
             localStorage.setItem('jwtToken',token);
             localStorage.setItem('nivel',nivel);
+            localStorage.setItem('userId',id);
             if(nivel == "1") {
                 console.log("teste");
                 window.location.href = 'Admin/admin.html'
@@ -39,6 +42,4 @@ function registrarToken(usuario, senha){
         .catch(error =>{
             console.log('Erro: ',error.message);
         })
-
-
 }

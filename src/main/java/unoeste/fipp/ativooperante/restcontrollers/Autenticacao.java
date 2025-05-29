@@ -26,6 +26,7 @@ public class Autenticacao {
             Map<String, String> map = new HashMap<>();
             map.put("token", token);
             map.put("nivel", String.valueOf(u.getNivel()));
+            map.put("usu_id", String.valueOf(u.getId()));
             return ResponseEntity.ok().body(map);
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

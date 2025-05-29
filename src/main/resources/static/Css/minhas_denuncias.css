@@ -1,0 +1,81 @@
+/* Estilos básicos para o corpo e container */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f4f7f6;
+    color: #333;
+}
+.container {
+    max-width: 900px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+h1 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Estilos da tabela */
+.table-container {
+    overflow-x: auto;
+    margin-top: 20px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+th, td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+th {
+    background-color: #e9ecef;
+    color: #555;
+    font-weight: bold;
+}
+tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+tr:hover {
+    background-color: #e2f0f7;
+}
+
+/* Indicadores de status e mensagens de erro */
+.loading-indicator, .error-message, .no-data-message {
+    text-align: center;
+    padding: 20px;
+    font-size: 1.1em;
+    color: #555;
+}
+.error-message {
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+.modal-hidden { /* Classe para esconder elementos */
+    display: none;
+}
+
+/* Botão Voltar */
+.back-button {
+    display: block;
+    margin-top: 20px;
+    text-align: center;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+.back-button:hover {
+    background-color: #0056b3;
+}

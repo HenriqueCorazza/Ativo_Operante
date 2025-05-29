@@ -2,10 +2,42 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Denúncias - Ativo Operante</title>
+    <link rel="stylesheet" href="../Css/minhas_denuncias.css">
 </head>
 <body>
+<div class="container">
+    <h1>Minhas Denúncias</h1>
 
+    <div id="loading-indicator" class="loading-indicator modal-hidden">Carregando denúncias...</div>
+    <div id="error-message" class="error-message modal-hidden">
+        <span id="error-text"></span>
+    </div>
+    <div id="no-denuncias-message" class="no-data-message modal-hidden">Nenhuma denúncia encontrada.</div>
+
+    <div class="table-container">
+        <table id="denuncias-table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Descrição</th>
+                <th>Tipo</th>
+                <th>Órgão</th>
+                <th>Urgência</th>
+                <th>Data</th>
+                <th>Feedback</th>
+            </tr>
+            </thead>
+            <tbody id="denuncias-table-body">
+            </tbody>
+        </table>
+    </div>
+
+    <a href="usuario.html" class="back-button">Voltar para o Dashboard</a>
+</div>
+
+<script src="../JavaScript/minhas_denuncias.js"></script>
 </body>
-<script src="../JavaScript/usuario.js"></script>
 </html>
