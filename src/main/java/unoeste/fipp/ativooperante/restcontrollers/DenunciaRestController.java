@@ -30,7 +30,7 @@ public class DenunciaRestController {
             return ResponseEntity.badRequest().body(new Erro("Denuncias não encontradas!"));
     }
 
-    @GetMapping("cidadao/minhas-denuncias")
+    @GetMapping("cidadao/minhas_denuncias")
     public ResponseEntity<Object> getByUsuario(@RequestParam Long id){
         List<Denuncia> listaDenuncia;
         listaDenuncia = denunciaService.getByUsuario(id);

@@ -6,6 +6,19 @@
     <title>Minhas Denúncias - Ativo Operante</title>
     <link rel="stylesheet" href="../Css/minhas_denuncias.css">
 </head>
+<style>
+    .modal-hidden {
+        display: none !important;
+    }
+    .denuncia-img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        margin: 4px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+    }
+</style>
 <body>
 <div class="container">
     <h1>Minhas Denúncias</h1>
@@ -28,6 +41,7 @@
                 <th>Urgência</th>
                 <th>Data</th>
                 <th>Feedback</th>
+                <th>Imagens</th>
             </tr>
             </thead>
             <tbody id="denuncias-table-body">
@@ -39,5 +53,20 @@
 </div>
 
 <script src="../JavaScript/minhas_denuncias.js"></script>
+<!-- Modal para imagem ampliada -->
+<div id="image-modal" class="modal-hidden" style="
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center;
+    z-index: 1000;
+">
+    <span id="modal-close" style="
+        position: absolute; top: 20px; right: 30px; font-size: 30px; color: white; cursor: pointer;
+        font-weight: bold;
+    ">&times;</span>
+    <img id="modal-image" src="" alt="Imagem ampliada" style="
+        max-width: 90vw; max-height: 90vh; border-radius: 8px; box-shadow: 0 0 15px black;
+    ">
+</div>
+
 </body>
 </html>

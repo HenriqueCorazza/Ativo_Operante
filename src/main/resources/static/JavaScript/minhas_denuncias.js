@@ -87,18 +87,96 @@ document.addEventListener('DOMContentLoaded', async () => {
             noDenunciasMessage.classList.add('modal-hidden');
             denuncias.forEach(denuncia => {
                 const row = document.createElement('tr');
+                const imagensHtml = (denuncia.imagens && denuncia.imagens.length > 0)
+                    ? denuncia.imagens.map(base64 => `<img src="data:image/jpeg;base64,${base64}" class="denuncia-img" alt="Imagem da denúncia">`).join('')
+                    : 'Sem imagens';
+                const imagensContainerId = `imagens-den-${denuncia.id}`;
                 row.innerHTML = `
-                    <td>${denuncia.id}</td>
+                    <td id ="den-${denuncia.id}">${denuncia.id}</td>
                     <td>${denuncia.titulo}</td>
                     <td>${denuncia.texto}</td>
                     <td>${denuncia.tipo ? denuncia.tipo.nome : 'N/A'}</td> <td>${denuncia.orgao ? denuncia.orgao.nome : 'N/A'}</td> <td>${denuncia.urgencia}</td>
                     <td>${denuncia.data || 'N/A'}</td>
-                    <td>${denuncia.feedback ? denuncia.feedback.texto : 'Aguardando'}</td> `;
+                    <td>${denuncia.feedback ? denuncia.feedback.texto : 'Aguardando'}</td>
+                    <td id="${imagensContainerId}">Carregando...</td>
+                    <td>
+                    <button class="action-button primary btn-add-image"
+                        
+                        onclick="AddImagem(${denuncia.id})">
+                            Adicionar Imagem
+                    </button>
+                </td>`;
+
                 denunciasTableBody.appendChild(row);
+
+                fetchImagensParaDenuncia(denuncia.id, imagensContainerId);
             });
         }
     }
 
+    async function fetchImagensParaDenuncia(denunciaId, containerId) {
+        try {
+            const response = await fetch(`${API_BASE_URL}getimg?den_id=${denunciaId}`, {
+                headers: {
+                    'Authorization': `${token}`
+                }
+            });
+
+            const container = document.getElementById(containerId);
+
+            if (!response.ok) {
+                container.innerText = 'Erro ao carregar imagens';
+                return;
+            }
+
+            const imagens = await response.json(); // [{ imagemBase64: "data:image/jpeg;base64,..." }, ...]
+            if (!imagens || imagens.length === 0) {
+                container.innerText = 'Sem imagens';
+            } else {
+                container.innerHTML = '';
+                imagens.forEach(imagem => {
+                    const img = document.createElement('img');
+                    img.src = imagem.imagemBase64;
+                    img.alt = 'Imagem da denúncia';
+                    img.classList.add('denuncia-img');
+                    img.style.cursor = 'pointer'; // Indica que é clicável
+                    img.addEventListener('click', () => {
+                        openImageModal(imagem.imagemBase64);
+                    });
+                    container.appendChild(img);
+                });
+            }
+        } catch (error) {
+            console.error(`Erro ao buscar imagens para denúncia ${denunciaId}:`, error);
+            const container = document.getElementById(containerId);
+            container.innerText = 'Erro ao carregar imagens';
+        }
+    }
+
+
+    function openImageModal(src) {
+        const modal = document.getElementById('image-modal');
+        const modalImage = document.getElementById('modal-image');
+        modalImage.src = src;
+        modal.classList.remove('modal-hidden');
+    }
+
+    document.getElementById('modal-close').addEventListener('click', () => {
+        const modal = document.getElementById('image-modal');
+        modal.classList.add('modal-hidden');
+    });
+
+// Fecha o modal ao clicar fora da imagem
+    document.getElementById('image-modal').addEventListener('click', (e) => {
+        if (e.target.id === 'image-modal') {
+            e.currentTarget.classList.add('modal-hidden');
+        }
+    });
+
+    window.AddImagem = function(id) {
+        localStorage.setItem("den_id", id);
+        window.location.href = '../Usuario/adiciona_imagem.html';
+    }
     // --- Inicialização ---
     fetchMinhasDenuncias();
     console.log("minhas_denuncias.js carregado.");

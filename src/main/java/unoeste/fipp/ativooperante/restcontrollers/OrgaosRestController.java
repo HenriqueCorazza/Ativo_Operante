@@ -14,10 +14,10 @@ import java.util.List;
 @RequestMapping("apis/orgaos")
 public class OrgaosRestController
 {
-    Autowired
+    @Autowired
     OrgaosService orgaosService;
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<Object> getAll()
     {
         List<Orgaos> listaOrgaos;
@@ -59,7 +59,7 @@ public class OrgaosRestController
             return ResponseEntity.ok(novo_orgao);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable Long id)
     {
         if(orgaosService.delete(id)){

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <title>Lista de Órgãos</title>
+    <style>
+        /* Reset básico */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f0f2f5;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 15px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #2c3e50;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+            font-weight: 700;
+        }
+
+        /* Formulário de cadastro */
+        #formCadastro {
+            width: 90%;
+            max-width: 900px;
+            background: white;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            border-radius: 8px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        #formCadastro input[type="text"] {
+            flex: 1 1 200px;
+            padding: 10px 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        #formCadastro input[type="text"]:focus {
+            border-color: #2980b9;
+            outline: none;
+        }
+
+        #formCadastro button {
+            background-color: #2980b9;
+            color: white;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        #formCadastro button:hover {
+            background-color: #1f6391;
+        }
+
+        table {
+            width: 90%;
+            max-width: 900px;
+            border-collapse: collapse;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            border-radius: 8px;
+            overflow: hidden;
+            background: white;
+        }
+
+        thead {
+            background-color: #2980b9;
+            color: white;
+            font-weight: 600;
+            text-align: left;
+            position: sticky;
+            top: 0;
+            box-shadow: 0 3px 5px rgba(0,0,0,0.15);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            border-bottom: 1px solid #e1e4e8;
+        }
+
+        tbody tr:hover {
+            background-color: #f6f9fc;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Botão deletar */
+        .btn-delete {
+            background-color: #e74c3c;
+            border: none;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+        .btn-delete:hover {
+            background-color: #c0392b;
+        }
+
+        /* Mensagem de nenhum órgão */
+        #orgaosTable tbody tr td {
+            text-align: center;
+            font-style: italic;
+            color: #777;
+        }
+
+        /* Responsividade */
+        @media (max-width: 600px) {
+            #formCadastro {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            #formCadastro button {
+                width: 100%;
+            }
+
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+
+            thead tr {
+                display: none;
+            }
+
+            tbody tr {
+                margin-bottom: 15px;
+                background: white;
+                box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+                border-radius: 8px;
+                padding: 15px;
+            }
+
+            tbody tr:hover {
+                background-color: #e3f2fd;
+                cursor: default;
+            }
+
+            tbody td {
+                border: none;
+                padding: 10px 0;
+                position: relative;
+                padding-left: 50%;
+                text-align: left;
+            }
+
+            tbody td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 15px;
+                top: 10px;
+                font-weight: 700;
+                color: #2980b9;
+                white-space: nowrap;
+            }
+
+            .btn-delete {
+                position: relative;
+                left: 0;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+<h1>Órgãos</h1>
+
+<!-- Formulário para cadastro -->
+<form id="formCadastro" aria-label="Formulário de cadastro de órgão">
+    <input type="text" id="nome" name="nome" placeholder="Nome do órgão" required />
+    <button type="submit">Cadastrar</button>
+</form>
+
+<table id="orgaosTable" aria-label="Lista de órgãos">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Nome</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Linhas serão inseridas aqui pelo JS -->
+    </tbody>
+</table>
+
+<script>
+    const API_BASE = 'http://localhost:8080/apis/orgaos';
+
+    const tabela = document.querySelector('#orgaosTable tbody');
+    const form = document.getElementById('formCadastro');
+
+    // Função para buscar órgãos e preencher tabela
+    async function carregarOrgaos() {
+        tabela.innerHTML = '<tr><td colspan="4">Carregando...</td></tr>';
+        try {
+            const res = await fetch(`${API_BASE}/all`);
+            if (!res.ok) throw new Error('Erro ao buscar órgãos');
+            const orgaos = await res.json();
+
+            if (orgaos.length === 0) {
+                tabela.innerHTML = '<tr><td colspan="4">Nenhum órgão encontrado.</td></tr>';
+                return;
+            }
+
+            tabela.innerHTML = '';
+            orgaos.forEach(orgao => {
+                const tr = document.createElement('tr');
+
+                tr.innerHTML = `
+            <td data-label="ID">${orgao.id}</td>
+            <td data-label="Nome">${orgao.nome}</td>
+            </td>
+          `;
+
+                tabela.appendChild(tr);
+            });
+
+            // Adiciona listener para botão deletar
+            document.querySelectorAll('.btn-delete').forEach(btn => {
+                btn.addEventListener('click', deletarOrgao);
+            });
+
+        } catch (error) {
+            tabela.innerHTML = `<tr><td colspan="4">Erro ao carregar órgãos: ${error.message}</td></tr>`;
+        }
+    }
+
+
+    // Função para cadastrar órgão
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const nome = form.nome.value.trim();
+
+        if (!nome) {
+            alert('Preencha todos os campos.');
+            return;
+        }
+
+        try {
+            const res = await fetch(API_BASE, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nome }),
+            });
+
+            if (!res.ok) {
+                const erro = await res.json();
+                alert('Erro ao cadastrar órgão: ' + (erro.mensagem || 'Desconhecido'));
+                return;
+            }
+
+            alert('Órgão cadastrado com sucesso!');
+            form.reset();
+            carregarOrgaos();
+        } catch (error) {
+            alert('Erro ao cadastrar órgão: ' + error.message);
+        }
+    });
+
+    // Carrega órgãos ao iniciar
+    carregarOrgaos();
+</script>
+</body>
+</html>

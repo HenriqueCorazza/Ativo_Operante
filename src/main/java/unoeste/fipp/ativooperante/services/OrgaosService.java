@@ -43,7 +43,7 @@ public class OrgaosService
         if(o != null)
         {
             orgaosRepository.delete(o);
-            return true
+            return true;
         }
         else
             return false;

@@ -20,12 +20,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const tituloInput = document.getElementById('titulo');
     const descricaoTextarea = document.getElementById('descricao');
     const tipoDenunciaSelect = document.getElementById('tipoDenuncia');
+    const orgaoSelect = document.getElementById('orgaos');
     const submitDenunciaButton = document.getElementById('submitDenunciaButton');
     const loadingIndicator = document.getElementById('loading-indicator');
     const errorMessageDiv = document.getElementById('error-message');
     const errorTextSpan = document.getElementById('error-text');
 
-    // --- Funções de Utilitário (mantido) ---
+
+
     function showLoading() {
         submitDenunciaButton.disabled = true;
         submitDenunciaButton.innerHTML = 'Enviando... <div class="spinner"></div>';
@@ -46,14 +48,49 @@ document.addEventListener('DOMContentLoaded', () => {
         errorTextSpan.textContent = '';
     }
 
-    // --- Popula o Select de Tipos de Denúncia (AGORA BUSCANDO DO BACKEND) ---
+    async function fetchOrgaos() {
+        try {
+            orgaoSelect.innerHTML = '<option value="">Carregando orgaos...</option>'; // Mostra status de carregamento
+            orgaoSelect.disabled = true; // Desabilita enquanto carrega
+
+            // REQUISIÇÃO PARA O BACKEND BUSCAR OS TIPOS DE DENÚNCIA
+            const response = await fetch(`${API_BASE_URL}orgaos/all`, {
+                method: 'GET',
+                headers: { 'Authorization': `${token}` }
+            });
+
+            if (!response.ok) {
+                // Se a resposta não for 200 OK (ex: 404, 500)
+                const errorData = await response.json(); // Tenta ler o JSON de erro
+                throw new Error(errorData.message || 'Erro ao buscar orgaos.');
+            }
+
+            const orgaos = await response.json();
+
+            // Limpa o select e adiciona a opção padrão
+            orgaoSelect.innerHTML = '<option value="">Selecione um tipo</option>';
+            orgaos.forEach(orgao => {
+                const option = document.createElement('option');
+                option.value = orgao.id; // Assume que o objeto TipoDenuncia tem uma propriedade 'id'
+                option.textContent = orgao.nome; // Assume que o objeto TipoDenuncia tem uma propriedade 'nome'
+                orgaoSelect.appendChild(option);
+            });
+            orgaoSelect.disabled = false; // Habilita o select
+        } catch (error) {
+            console.error("Erro ao carregar tipos de denúncia:", error);
+            showFormError("Não foi possível carregar os tipos de denúncia. " + (error.message || ""));
+            orgaoSelect.innerHTML = '<option value="">Erro ao carregar</option>'; // Exibe erro no select
+            orgaoSelect.disabled = true; // Mantém desabilitado em caso de erro grave
+        }
+    }
+
     async function fetchTiposDenuncia() {
         try {
             tipoDenunciaSelect.innerHTML = '<option value="">Carregando tipos...</option>'; // Mostra status de carregamento
             tipoDenunciaSelect.disabled = true; // Desabilita enquanto carrega
 
             // REQUISIÇÃO PARA O BACKEND BUSCAR OS TIPOS DE DENÚNCIA
-            const response = await fetch(`${API_BASE_URL}tiposDenuncia`, { // <<-- AJUSTE ESTE ENDPOINT SE NECESSÁRIO
+            const response = await fetch(`${API_BASE_URL}tipo`, { // <<-- AJUSTE ESTE ENDPOINT SE NECESSÁRIO
                 method: 'GET',
                 headers: { 'Authorization': `${token}` }
             });
@@ -85,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Chama a função para carregar os tipos ao carregar a página
     fetchTiposDenuncia();
-
+    fetchOrgaos();
 
     // --- Lógica de Submissão do Formulário (mantido, mas com foco no tipoDenunciaId) ---
     denunciaForm.addEventListener('submit', async (e) => {
@@ -93,24 +130,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
         hideFormError();
         showLoading();
-
         const denunciaData = {
             titulo: tituloInput.value.trim(),
-            descricao: descricaoTextarea.value.trim(),
+            texto: descricaoTextarea.value.trim(),
             // Ao invés de enviar o objeto inteiro, você envia APENAS o ID do tipo selecionado
             // O backend deve ter uma entidade Denuncia com um relacionamento para TipoDenuncia via ID
-            tipoDenunciaId: tipoDenunciaSelect.value // Envia o ID numérico do tipo selecionado
+            urgencia: '1',
+            data: new Date().toISOString(),
+            tipo:{
+                id: parseInt(tipoDenunciaSelect.value)
+            }, // Envia o ID numérico do tipo selecionado
+            orgao:{
+                id: parseInt(orgaoSelect.value)
+            },
+            usuario:{
+                id: parseInt(localStorage.getItem("userId"))
+            }
         };
 
         // Validação básica do lado do cliente
-        if (!denunciaData.titulo || !denunciaData.descricao || !denunciaData.tipoDenunciaId) {
+        if (!denunciaData.titulo || !denunciaData.texto) {
             showFormError('Por favor, preença todos os campos obrigatórios.');
             hideLoading();
             return;
         }
-
         try {
-            const response = await fetch(`${API_BASE_URL}denuncias`, { // Endpoint para criar denúncias (AJUSTE AQUI)
+            const response = await fetch(`${API_BASE_URL}cidadao/`, { // Endpoint para criar denúncias (AJUSTE AQUI)
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

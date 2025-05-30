@@ -164,6 +164,8 @@ async function fetchDenuncias() {
     }
 }
 
+
+
 // Exclui uma denúncia
 async function deleteDenuncia(id) {
     if (!confirm("Tem certeza que deseja excluir esta denúncia?")) {
@@ -241,7 +243,7 @@ function renderDenuncias(denunciasToRender) {
             row.innerHTML = `
                 <td>${denuncia.id}</td>
                 <td>${denuncia.titulo || 'N/A'}</td>   
-                <td>${denuncia.status || 'N/A'}</td> <td>${new Date(denuncia.data).toLocaleDateString() || 'N/A'}</td> 
+                 <td>${new Date(denuncia.data).toLocaleDateString() || 'N/A'}</td>
                 <td class="actions-cell">
                     <div class="button-group">
                         <button
@@ -260,6 +262,7 @@ function renderDenuncias(denunciasToRender) {
                         </button>
                     </div>
                 </td>
+                <td>${denuncia.feedback.texto}</td> 
             `;
             denunciaTableBody.appendChild(row);
         });

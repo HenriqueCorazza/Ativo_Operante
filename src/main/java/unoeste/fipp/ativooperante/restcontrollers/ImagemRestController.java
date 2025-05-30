@@ -21,7 +21,7 @@ public class ImagemRestController {
     @Autowired
     private ImagemService imagemService;
 
-    @PostMapping("cidadao/upload")
+    @PostMapping("upload")
     public ResponseEntity<Object> uploadImagem(@RequestParam("arquivo") MultipartFile arquivo, @RequestParam("den_id") Long den_id) {
         try {
                 Imagem img = imagemService.addImagem(arquivo,den_id);
@@ -33,7 +33,7 @@ public class ImagemRestController {
         return ResponseEntity.badRequest().body(new Erro("Erro ao enviar imagem!"));
     }
 
-    @GetMapping("/get")
+    @GetMapping("getimg")
     public ResponseEntity<Object> getImagem(@RequestParam("den_id") Long den_id) {
         List<Imagem> listImagem = imagemService.getImagem(den_id);
         List<ImagemDTO> convertido = new ArrayList<>();
